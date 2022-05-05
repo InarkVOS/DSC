@@ -30,8 +30,6 @@ def openapp(app, args):
         except:
             code = 0
         exit(code)
-    elif app.lower() == "rlprompt":
-        reload()
     if Exists(app):
         python = "python" if platform.system() == "Windows" else "python3"
         global inp_onlyargs
@@ -42,11 +40,7 @@ def openapp(app, args):
 
 def reload():
     init_prompt()
-    reload_config()
 
-def reload_config():
-    config.read('commands.ini')
-    d = as_dict()
 
 def init_prompt():
     f = open('.dshellrc', 'r')
@@ -66,8 +60,8 @@ def init_prompt():
     prompt = f'{user}@{host}> '
 init_prompt()
 while True:
-    reload()
-    init_prompt()
+    config.read('commands.ini')
+    d = as_dict()
     inp = input(prompt)
     inp_transformed = inp.split(' ',1)
     inp_onlyargs = inp.split(' ')
