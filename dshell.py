@@ -31,7 +31,7 @@ def openapp(app, args):
             code = 0
         exit(code)
     elif app.lower() == "rlprompt":
-        init_prompt()
+        reload()
     if Exists(app):
         python = "python" if platform.system() == "Windows" else "python3"
         global inp_onlyargs
@@ -39,6 +39,15 @@ def openapp(app, args):
         os.system(f'{python} {getProp("path", app)} {inp_onlyargs}')
     else:
         print('Command or application not found!')
+
+def reload():
+    init_prompt()
+    reload_config()
+
+def reload_config():
+    config.read('commands.ini')
+    d = as_dict()
+
 def init_prompt():
     f = open('.dshellrc', 'r')
     lines = f.readlines()
@@ -57,6 +66,8 @@ def init_prompt():
     prompt = f'{user}@{host}> '
 init_prompt()
 while True:
+    reload()
+    init_prompt()
     inp = input(prompt)
     inp_transformed = inp.split(' ',1)
     inp_onlyargs = inp.split(' ')
