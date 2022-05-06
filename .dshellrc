@@ -1,5 +1,3 @@
 user DEV_ENV
 host dshell
-rescan on
-; Turn on rescan if you want to auto rescan the modules.ini for new programs.
-; Turn it off if you have a very slow computer.
+theme red
