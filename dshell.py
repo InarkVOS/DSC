@@ -1,6 +1,11 @@
 import configparser
 import platform
 import os
+from rich import print
+from rich.console import Console
+from rich.prompt import Prompt
+console = Console()
+
 config = configparser.ConfigParser()
 config.read('commands.ini')
 
@@ -35,6 +40,8 @@ def openapp(app, args):
         global inp_onlyargs
         inp_onlyargs = ' '.join(inp_onlyargs)
         os.system(f'{python} {getProp("path", app)} {inp_onlyargs}')
+    elif app == "":
+        pass
     else:
         print('Command or application not found!')
 
@@ -56,13 +63,20 @@ def init_prompt():
         if line.startswith('host '):
             host = line.split(' ')[1:]
             host = ' '.join(host)
+        if line.startswith('theme '):
+            theme = line.split(' ')[1:]
+            theme = ' '.join(theme)
+            theme = theme.lower()
     global prompt
-    prompt = f'{user}@{host}> '
+    if theme == "red":
+        prompt = f'[red]{user}[/red][bold red]@[/bold red][red]{host}[/red]'
+    else:
+        prompt = f'{user}@{host}'
 init_prompt()
 while True:
     config.read('commands.ini')
     d = as_dict()
-    inp = input(prompt)
+    inp = Prompt.ask(prompt)
     inp_transformed = inp.split(' ',1)
     inp_onlyargs = inp.split(' ')
     inp_onlyargs.pop(0)
